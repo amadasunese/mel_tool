@@ -53,11 +53,11 @@ def create_app():
     # @app.get("/")
     # def index():
     #     return redirect(url_for("dashboard.dashboard_home"))
-    
-    
 
-    
-    
+
+
+
+
     from flask_login import current_user
     from flask import render_template
 
@@ -66,15 +66,14 @@ def create_app():
         if current_user.is_authenticated:
             return redirect(url_for("dashboard.dashboard_home"))
         return render_template("landing.html")
-    
-    
-    from flask import render_template
+
+
     from flask_limiter.errors import RateLimitExceeded
 
     @app.errorhandler(RateLimitExceeded)
     def handle_rate_limit(e):
         return render_template("errors/429.html"), 429
-    
+
 
     return app
 
