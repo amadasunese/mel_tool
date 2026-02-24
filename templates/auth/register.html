@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+<section class="auth">
+  <div class="card auth-card auth-card--wide">
+    <div class="auth-header">
+      <h1 class="auth-title">Register</h1>
+      <p class="auth-subtitle">Create a new organisation or join with an invite code.</p>
+    </div>
+
+    <form method="post" action="/auth/register" class="auth-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="form-row">
+        <label>Registration Type</label>
+        <select name="mode" id="modeSelect">
+          <option value="create" {% if form.get('mode','create') == 'create' %}selected{% endif %}>Create Organisation</option>
+          <option value="join" {% if form.get('mode') == 'join' %}selected{% endif %}>Join with Invite Code</option>
+        </select>
+      </div>
+
+      <div id="createBlock" class="auth-section">
+        <div class="auth-section__title">Organisation</div>
+
+        <div class="form-row">
+          <label>Organisation Name</label>
+          <input type="text" name="org_name" value="{{ form.get('org_name','') }}" placeholder="e.g. Girls’ Power Initiative">
+        </div>
+
+        <div class="form-row">
+          <label>Organisation Slug</label>
+          <input type="text" name="org_slug" value="{{ form.get('org_slug','') }}" placeholder="e.g. gpi-edo">
+          <div class="help-text">Lowercase letters, numbers, and hyphens only.</div>
+        </div>
+      </div>
+
+      <div id="joinBlock" class="auth-section">
+        <div class="auth-section__title">Invite</div>
+
+        <div class="form-row">
+          <label>Invite Code</label>
+          <input type="text" name="invite_code" value="{{ form.get('invite_code','') }}" placeholder="Paste invite code">
+        </div>
+      </div>
+
+      <div class="auth-section">
+        <div class="auth-section__title">Your Account</div>
+
+        <div class="form-row">
+          <label>Full Name</label>
+          <input type="text" name="full_name" value="{{ form.get('full_name','') }}" required autocomplete="name">
+        </div>
+
+        <div class="form-row">
+          <label>Email</label>
+          <input type="email" name="email" value="{{ form.get('email','') }}" required autocomplete="email" placeholder="you@org.com">
+        </div>
+
+        <div class="auth-2col">
+          <div class="form-row">
+            <label>Password</label>
+            <input type="password" name="password" required autocomplete="new-password">
+          </div>
+
+          <div class="form-row">
+            <label>Confirm Password</label>
+            <input type="password" name="confirm_password" required autocomplete="new-password">
+          </div>
+        </div>
+
+        <label class="check-row">
+          <input type="checkbox" name="accept_terms" required>
+          <span>
+            I agree to the <a href="/terms" target="_blank" rel="noopener">Terms</a> and
+            <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+          </span>
+        </label>
+
+        <!-- Honeypot -->
+        <div class="honeypot">
+          <label>Website</label>
+          <input type="text" name="website" autocomplete="off">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary auth-submit">Create account</button>
+
+      <div class="auth-links">
+        <span>Already have an account?</span>
+        <a href="/auth/login">Login</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+(function() {
+  const mode = document.getElementById("modeSelect");
+  const createBlock = document.getElementById("createBlock");
+  const joinBlock = document.getElementById("joinBlock");
+
+  function sync() {
+    const v = mode.value;
+    createBlock.style.display = (v === "create") ? "block" : "none";
+    joinBlock.style.display = (v === "join") ? "block" : "none";
+  }
+
+  mode.addEventListener("change", sync);
+  sync();
+})();
+</script>
+
+{% endblock %}

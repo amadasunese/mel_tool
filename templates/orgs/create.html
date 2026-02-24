@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Create Organisation{% endblock %}
+
+{% block content %}
+
+<section class="page-wrap">
+  <div class="card form-card">
+
+    <div class="section-head">
+      <h1 class="page-title">Create Organisation</h1>
+      <p class="page-subtitle">
+        Register a new organisation workspace within the system.
+      </p>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box__title">Naming Guidance</div>
+      <div class="info-box__text">
+        Use a short, unique slug. Example: <code>gpi-edo</code>
+      </div>
+    </div>
+
+    <form method="post" class="stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="form-row">
+        <label>Organisation Name</label>
+        <input type="text" name="name" value="{{ form.get('name','') }}" required placeholder="e.g. Girls’ Power Initiative">
+      </div>
+
+      <div class="form-row">
+        <label>Organisation Slug</label>
+        <input type="text" name="slug" value="{{ form.get('slug','') }}" required placeholder="e.g. gpi-edo">
+        <div class="help-text">
+          Lowercase letters, numbers, and hyphens only.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary form-submit">
+        Create Organisation
+      </button>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

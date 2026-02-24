@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Create Invite{% endblock %}
+
+{% block content %}
+
+<section class="page-wrap">
+  <div class="card form-card">
+
+    <div class="section-head">
+      <h1 class="page-title">Create Invite</h1>
+      <p class="page-subtitle">
+        Generate an invitation link/code for new users to join your organisation.
+      </p>
+    </div>
+
+    <form method="post" class="stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="form-row">
+        <label>Role</label>
+        <select name="role">
+          <option value="staff" {% if form.get('role')=='staff' %}selected{% endif %}>Staff</option>
+          <option value="org_admin" {% if form.get('role')=='org_admin' %}selected{% endif %}>Org Admin</option>
+        </select>
+        <div class="help-text">
+          Determines the access level granted to users who redeem this invite.
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Max Uses</label>
+        <input type="number" name="max_uses" value="{{ form.get('max_uses','1') }}" min="1">
+        <div class="help-text">
+          Number of users allowed to redeem this invite.
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Expires in (days)</label>
+        <input type="number" name="expires_days" value="{{ form.get('expires_days','') }}" min="1" placeholder="Optional">
+        <div class="help-text">
+          Leave blank if the invite should not expire.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary form-submit">
+        Create Invite
+      </button>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Test Score Analyzer{% endblock %}
+
+{% block content %}
+
+<div class="card page-head">
+  <div class="page-head__title">
+    <h1 class="page-title">Test Score Analyzer</h1>
+    <p class="page-subtitle">
+      Upload Pre-test and Post-test dataset (CSV/XLSX). Optional gender disaggregation supported.
+    </p>
+  </div>
+
+  <div class="page-head__actions">
+    <a class="btn btn-outline" href="/testscore/manual">📘 Download User Manual (PDF)</a>
+  </div>
+</div>
+
+<div class="grid">
+  <!-- Upload -->
+  <div class="card">
+    <div class="section-head">
+      <h2 class="section-title">Upload dataset</h2>
+      <p class="section-subtitle">Choose a file and run analysis in one click.</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="form-row">
+        <label>Dataset File (CSV or XLSX)</label>
+        <input type="file" name="dataset" accept=".csv,.xlsx" required>
+      </div>
+
+      <div class="form-row">
+        <label>Disaggregate by Gender?</label>
+        <select name="disaggregate">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Analyze Scores</button>
+    </form>
+
+    <div class="info-box">
+      <div class="info-box__title">Dataset format</div>
+      <div class="info-box__text">
+        <div><strong>Required columns:</strong> <code>pre_test</code>, <code>post_test</code></div>
+        <div><strong>Optional:</strong> <code>gender</code> (or <code>gend</code>)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resources -->
+  <div class="card">
+    <div class="section-head">
+      <h2 class="section-title">Resources</h2>
+      <p class="section-subtitle">Helpful reference for correct reporting and interpretation.</p>
+    </div>
+
+    <ul class="link-list">
+      <li><a href="/testscore/manual">📘 Download User Manual (PDF)</a></li>
+      <!-- Add more later if you want -->
+      <!-- <li><a href="/testscore/help">Help</a></li> -->
+      <!-- <li><a href="/testscore/about">About</a></li> -->
+    </ul>
+
+    <div class="muted-note">
+      This module is useful for trainings, sensitization sessions, workshops and learning events where you administer pre/post tests.
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-card__title">Tip</div>
+      <div class="tip-card__text">
+        Keep the score columns numeric (0–100). If you include gender, use consistent values (e.g., Male/Female).
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

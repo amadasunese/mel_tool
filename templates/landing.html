@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}NGO Reporting Tool{% endblock %}
+
+{% block content %}
+
+<section class="landing">
+
+  <!-- HERO -->
+  <div class="card landing-hero">
+    <div class="landing-hero__content">
+      <span class="landing-badge">Multi-organisation MEL workspace</span>
+
+      <h1 class="landing-title">NGO Reporting Tool</h1>
+
+      <p class="landing-subtitle">
+        A structured reporting system for <strong>Projects → Strategic Objectives → Indicators → Activities → Reach (M/F)</strong>,
+        designed to keep implementation data clean and report-ready.
+      </p>
+
+      <div class="landing-actions">
+        <a class="btn btn-primary" href="/auth/login">🔐 Login</a>
+        <a class="btn btn-outline" href="/auth/register">📝 Create Account</a>
+      </div>
+
+      <div class="landing-meta">
+        <div class="meta-item">✅ Gender-disaggregated reach</div>
+        <div class="meta-item">✅ Exports: DOCX / XLSX</div>
+        <div class="meta-item">✅ Multi-tenant workspaces</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="grid landing-grid">
+    <div class="card feature">
+      <div class="feature-icon">📁</div>
+      <h2 class="feature-title">Project Structure</h2>
+      <p class="feature-text">
+        Create projects and organize them into strategic objectives, indicators, and activities with consistent naming and tracking.
+      </p>
+    </div>
+
+    <div class="card feature">
+      <div class="feature-icon">🗓</div>
+      <h2 class="feature-title">Activity Tracking</h2>
+      <p class="feature-text">
+        Record implementation activities and attendance summary by gender—focused on reporting needs, not personal identities.
+      </p>
+    </div>
+
+    <div class="card feature">
+      <div class="feature-icon">📑</div>
+      <h2 class="feature-title">Reporting & Exports</h2>
+      <p class="feature-text">
+        Generate period reports and export to DOCX/XLSX for donor reporting, learning reviews, and internal updates.
+      </p>
+    </div>
+
+    <div class="card feature">
+      <div class="feature-icon">🧪</div>
+      <h2 class="feature-title">Test Score Analyzer</h2>
+      <p class="feature-text">
+        Analyze pre/post tests and produce narrative interpretation aligned to the exact figures in your charts.
+      </p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="card landing-cta">
+    <div>
+      <h2 class="landing-cta__title">Ready to start reporting smarter?</h2>
+      <p class="landing-cta__text">
+        Sign in to your organisation workspace or create an account to get started.
+      </p>
+    </div>
+    <div class="landing-cta__actions">
+      <a class="btn btn-primary" href="/auth/login">Login</a>
+      <a class="btn btn-outline" href="/auth/register">Create Account</a>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}

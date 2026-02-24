@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Period Report{% endblock %}
+{% block content %}
+
+<div class="card page-head">
+  <div>
+    <h1 class="page-title">Period Reach Report</h1>
+    <p class="page-subtitle">
+      <strong>{{ project.name }}</strong> · {{ start_date }} to {{ end_date }}
+    </p>
+  </div>
+
+  <div class="page-head__actions">
+    <a class="btn btn-outline" href="/reports/period">← New period</a>
+    {# Add export buttons later if you implement them #}
+    {# <a class="btn btn-primary" href="/reports/period/export/docx?...">Export DOCX</a> #}
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card kpi">
+    <div class="kpi-label">Male reached</div>
+    <div class="kpi-value">{{ reach.male }}</div>
+  </div>
+  <div class="card kpi">
+    <div class="kpi-label">Female reached</div>
+    <div class="kpi-value">{{ reach.female }}</div>
+  </div>
+  <div class="card kpi">
+    <div class="kpi-label">Total reached</div>
+    <div class="kpi-value">{{ reach.total }}</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2 class="section-title">Activities in period</h2>
+  <p class="section-subtitle">Activities under this project within the selected date range.</p>
+
+  {% if not activities %}
+    <p class="muted-note">No activities found in this period.</p>
+  {% else %}
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Title</th>
+          <th>SO</th>
+          <th>Status</th>
+          <th>Male</th>
+          <th>Female</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in activities %}
+          <tr>
+            <td>{{ a.activity_date }}</td>
+            <td>{{ a.title }}</td>
+            <td>{{ a.strategic_objective_id }}</td>
+            <td>{{ a.status }}</td>
+            <td>{{ a.male_count if a.male_count is defined else "—" }}</td>
+            <td>{{ a.female_count if a.female_count is defined else "—" }}</td>
+            <td>
+              <b>
+                {% if a.male_count is defined and a.female_count is defined %}
+                  {{ (a.male_count or 0) + (a.female_count or 0) }}
+                {% else %}
+                  —
+                {% endif %}
+              </b>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+</div>
+
+{% endblock %}

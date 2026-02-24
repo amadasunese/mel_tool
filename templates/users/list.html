@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+    <div>
+      <h1 style="margin:0;">User Management</h1>
+      {% if org %}
+      <p style="margin:6px 0 0; color:#6b7280;">Organisation: <b>{{ org.name }}</b></p>
+      {% else %}
+      <p style="margin:6px 0 0; color:#6b7280;">Users</p>
+      {% endif %}
+    </div>
+    <a class="btn" href="/users/create">+ Create User</a>
+  </div>
+</div>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Last Login</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td>{{ u.full_name }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.role }}</td>
+        <td>{{ "Active" if u.is_active else "Disabled" }}</td>
+        <td>{{ u.last_login_at or "—" }}</td>
+        <td style="display:flex; gap:8px; flex-wrap:wrap;">
+          <form method="post" action="/users/{{u.id}}/toggle">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit">{{ "Disable" if u.is_active else "Enable" }}</button>
+          </form>
+          <a class="btn" href="/users/{{u.id}}/reset-password">Reset Password</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

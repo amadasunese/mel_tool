@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>{% block title %}NGO Reporting Tool{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="app-layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>MEL Tool</h2>
+
+      {% if current_user.is_authenticated %}
+        <p style="margin:6px 0 0;">
+          {{ current_user.organisation.name if current_user.organisation else "Organisation" }}
+        </p>
+        <small style="display:inline-block; margin-top:6px; opacity:.85;">
+          {{ current_user.full_name }} · {{ current_user.role }}
+        </small>
+      {% else %}
+        <p>Reporting &amp; MEL</p>
+      {% endif %}
+    </div>
+    <hr style="margin:12px 0; opacity:.35;">
+
+    <nav class="sidebar-nav">
+
+      <!-- ========== PUBLIC NAV (NOT LOGGED IN) ========== -->
+      {% if not current_user.is_authenticated %}
+        <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">🏠 Home</a>
+        <a href="/auth/login" class="nav-item {% if request.path.startswith('/auth/login') %}active{% endif %}">🔐 Login</a>
+        <a href="/auth/register" class="nav-item {% if request.path.startswith('/auth/register') %}active{% endif %}">📝 Register</a>
+      {% else %}
+
+      <!-- ========== APP NAV (LOGGED IN) ========== -->
+        <a href="/dashboard/" class="nav-item {% if request.path.startswith('/dashboard') %}active{% endif %}">📊 Dashboard</a>
+        <a href="/projects/" class="nav-item {% if request.path.startswith('/projects') %}active{% endif %}">📁 Projects</a>
+        <a href="/sos/" class="nav-item {% if request.path.startswith('/sos') %}active{% endif %}">🎯 Strategic Objectives</a>
+        <a href="/indicators/" class="nav-item {% if request.path.startswith('/indicators') %}active{% endif %}">📏 Indicators</a>
+        <a href="/activities/" class="nav-item {% if request.path.startswith('/activities') %}active{% endif %}">🗓 Activities</a>
+        <a href="/reports/" class="nav-item {% if request.path.startswith('/reports') %}active{% endif %}">📑 Reports</a>
+        <a href="/testscore/" class="nav-item {% if request.path.startswith('/testscore') %}active{% endif %}">🧪 Test Score Analyzer</a>
+        <!-- <a href="/contact/" class="nav-item {% if request.path.startswith('/contact') %}active{% endif %}">✉️ Contact</a> -->
+
+        <hr style="margin:12px 0; opacity:.35;">
+
+        <!-- Admin tools -->
+        {% if current_user.is_org_admin %}
+          <!-- <div class="nav-divider" style="margin:12px 0; opacity:.35;"></div> -->
+          <div class="nav-section" style="font-size:12px; opacity:.7; margin-bottom:6px;">ADMIN</div>
+          <a href="/users/" class="nav-item {% if request.path.startswith('/users') %}active{% endif %}">👤 Users</a>
+          <a href="/invites/" class="nav-item {% if request.path.startswith('/invites') %}active{% endif %}">🔑 Invites</a>
+          <a href="/contact/" class="nav-item {% if request.path.startswith('/contact') %}active{% endif %}">✉️ Need Help?</a>
+        {% endif %}
+
+        {% if current_user.is_super_admin %}
+          <a href="/orgs/" class="nav-item {% if request.path.startswith('/orgs') %}active{% endif %}">🏢 Organisations</a>
+        {% endif %}
+        <hr style="margin:12px 0; opacity:.35;">
+        <a href="/auth/logout" class="nav-item">🚪 Logout</a>
+
+      {% endif %}
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-mini">
+        <div class="dot"></div>
+        <div>
+          <div class="mini-title">Status</div>
+          <div class="mini-sub">Ready</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main-content">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashwrap">
+          {% for cat, msg in messages %}
+            <div class="flash {{cat}}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    {% block extra_scripts %}{% endblock %}
+  </main>
+
+</body>
+</html>

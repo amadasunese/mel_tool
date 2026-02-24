@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+    <div>
+      <h1 style="margin:0;">Contact Support</h1>
+      <p style="margin:6px 0 0; color:#6b7280;">
+        Send a message to the support/admin inbox. We typically respond within business hours.
+      </p>
+    </div>
+    <div>
+      <a class="btn" href="/dashboard/">Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3 style="margin-top:0;">Contact Form</h3>
+
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <label>Your Name</label>
+      <input type="text" name="name" value="{{ form.get('name','') }}" placeholder="e.g., Ese Amadasun" required>
+
+      <label>Your Email</label>
+      <input type="email" name="email" value="{{ form.get('email','') }}" placeholder="e.g., you@example.com" required>
+
+      <label>Subject</label>
+      <input type="text" name="subject" value="{{ form.get('subject','') }}" placeholder="What is this about?" required>
+
+      <label>Message</label>
+      <textarea name="message" rows="6" placeholder="Type your message..." required>{{ form.get('message','') }}</textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <p style="margin-top:12px; color:#6b7280; font-size:13px;">
+      <!-- For security, this form is protected with CSRF. -->
+    </p>
+  </div>
+
+  
+</div>
+{% endblock %}

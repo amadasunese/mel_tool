@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Organisations{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+    <div>
+      <h1 style="margin:0;">Organisations</h1>
+      <p style="margin:6px 0 0; color:#6b7280;">Super admin workspace management.</p>
+    </div>
+    <a class="btn" href="/orgs/create">+ Create Organisation</a>
+  </div>
+</div>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Slug</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in orgs %}
+      <tr>
+        <td>{{ o.name }}</td>
+        <td>{{ o.slug }}</td>
+        <td>{{ "Active" if o.is_active else "Disabled" }}</td>
+        <td>
+          <form method="post" action="/orgs/{{o.id}}/toggle">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit">{{ "Disable" if o.is_active else "Enable" }}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

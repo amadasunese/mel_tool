@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Period Report{% endblock %}
+{% block content %}
+
+<section class="page-wrap">
+  <div class="card form-card">
+    <div class="section-head">
+      <h1 class="page-title">Period Reach Report</h1>
+      <p class="page-subtitle">Select a project and reporting period to generate reach totals.</p>
+    </div>
+
+    <form method="post" action="/reports/period" class="stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="form-row">
+        <label>Project</label>
+        <select name="project_id" required>
+          <option value="">Select…</option>
+          {% for p in projects %}
+            <option value="{{ p.id }}">{{ p.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="auth-2col">
+        <div class="form-row">
+          <label>Start date</label>
+          <input type="date" name="start_date" required>
+        </div>
+
+        <div class="form-row">
+          <label>End date</label>
+          <input type="date" name="end_date" required>
+        </div>
+      </div>
+
+      <button class="btn btn-primary form-submit" type="submit">Generate report</button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

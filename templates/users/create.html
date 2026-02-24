@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Create User{% endblock %}
+
+{% block content %}
+
+<section class="page-wrap">
+  <div class="card form-card">
+
+    <div class="section-head">
+      <h1 class="page-title">Create User</h1>
+      <p class="page-subtitle">
+        Add a new user to the system and assign organisational access.
+      </p>
+    </div>
+
+    <form method="post" class="stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="form-row">
+        <label>Full Name</label>
+        <input type="text" name="full_name" value="{{ form.get('full_name','') }}" required>
+      </div>
+
+      <div class="form-row">
+        <label>Email</label>
+        <input type="email" name="email" value="{{ form.get('email','') }}" required>
+      </div>
+
+      {% if orgs and orgs|length > 0 %}
+      <div class="form-row">
+        <label>Organisation</label>
+        <select name="organisation_id" required>
+          <option value="">Select organisation</option>
+          {% for o in orgs %}
+            <option value="{{ o.id }}" {% if form.get('organisation_id') == o.id|string %}selected{% endif %}>
+              {{ o.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      {% endif %}
+
+      <div class="form-row">
+        <label>Role</label>
+        <select name="role">
+          <option value="staff" {% if form.get('role')=='staff' %}selected{% endif %}>Staff</option>
+          <option value="org_admin" {% if form.get('role')=='org_admin' %}selected{% endif %}>Org Admin</option>
+          {% if current_user.is_super_admin %}
+          <option value="super_admin" {% if form.get('role')=='super_admin' %}selected{% endif %}>Super Admin</option>
+          {% endif %}
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Temporary Password</label>
+        <input type="password" name="password" required placeholder="Minimum 8 characters">
+        <div class="help-text">
+          The user will be able to change this after first login.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary form-submit">
+        Create User
+      </button>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}
