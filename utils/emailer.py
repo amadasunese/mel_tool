@@ -27,8 +27,19 @@ def send_contact_email(name: str, sender_email: str, subject: str, message: str)
     # Who receives contact form messages
     mail_to = os.getenv("MAIL_TO", mail_user).strip()
 
-    if not mail_host or not mail_user or not mail_pass or not mail_to:
-        raise RuntimeError("Email is not configured. Set MAIL_HOST, MAIL_USERNAME, MAIL_PASSWORD, MAIL_TO.")
+    # if not mail_host or not mail_user or not mail_pass or not mail_to:
+    #     raise RuntimeError("Email is not configured. Set MAIL_HOST, MAIL_USERNAME, MAIL_PASSWORD, MAIL_TO.")
+
+    missing = []
+    if not mail_host: missing.append("MAIL_HOST")
+    if not mail_user: missing.append("MAIL_USERNAME")
+    if not mail_pass: missing.append("MAIL_PASSWORD")
+    if not mail_to: missing.append("MAIL_TO")
+    if missing:
+        raise RuntimeError(f"Email not configured. Missing: {', '.join(missing)}")
+
+
+
 
     email_msg = EmailMessage()
     email_msg["Subject"] = f"[Contact] {subject}".strip()

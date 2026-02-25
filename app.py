@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from flask import Flask, redirect, url_for
 from config import Config
 from extensions import db, migrate, csrf, login_manager, limiter
@@ -24,7 +25,7 @@ from routes import invites as _invites_routes  # noqa: F401
 from routes import public as _public_routes  # noqa: F401
 
 
-
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)

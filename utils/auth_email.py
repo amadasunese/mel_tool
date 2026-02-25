@@ -16,8 +16,20 @@ def _smtp_send(to_email: str, subject: str, body: str) -> None:
     mail_pass = os.getenv("MAIL_PASSWORD", "")
     mail_use_tls = os.getenv("MAIL_USE_TLS", "true").lower() == "true"
 
-    if not mail_host or not mail_user or not mail_pass:
-        raise RuntimeError("Email not configured. Set MAIL_HOST, MAIL_USERNAME, MAIL_PASSWORD.")
+    # if not mail_host or not mail_user or not mail_pass:
+    #     raise RuntimeError("Email not configured. Set MAIL_HOST, MAIL_USERNAME, MAIL_PASSWORD.")
+
+
+    missing = []
+    if not mail_host: missing.append("MAIL_HOST")
+    if not mail_user: missing.append("MAIL_USERNAME")
+    if not mail_pass: missing.append("MAIL_PASSWORD")
+    # if not mail_to: missing.append("MAIL_TO")
+    if missing:
+        raise RuntimeError(f"Email not configured. Missing: {', '.join(missing)}")
+
+
+
 
     msg = EmailMessage()
     msg["Subject"] = subject
